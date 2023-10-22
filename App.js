@@ -1,19 +1,33 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import HomeScreen from './src/screens/HomeScreen';
-
+import { useFonts } from 'expo-font';
+import {
+	HomeScreenNavigator,
+	CartScreenNavigator,
+	OrderScreenNavigator,
+	StoresScreenNavigator,
+} from './src/navigation/CustomNavigation';
+import { Text } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { colors } from './src/themes/colors';
 import { typography } from './src/themes/typography';
 import * as SplashScreen from 'expo-splash-screen';
+import CustomText from './src/components/CustomText';
 
 SplashScreen.preventAutoHideAsync();
 setTimeout(SplashScreen.hideAsync, 2000);
 
 export default function App() {
+	const [fontsLoaded] = useFonts({
+		Montserrat: require('./src/assets/fonts/ttf/Montserrat-Bold.ttf'),
+	});
+	if (!fontsLoaded) {
+		return null;
+	}
+
 	const Tab = createBottomTabNavigator();
+
 	return (
 		<NavigationContainer>
 			<Tab.Navigator
@@ -21,6 +35,7 @@ export default function App() {
 				screenOptions={{
 					headerShown: false,
 					tabBarActiveTintColor: colors.common.PRIMARY,
+
 					tabBarStyle: {
 						height: 110,
 						paddingTop: 5,
@@ -33,9 +48,8 @@ export default function App() {
 			>
 				<Tab.Screen
 					name="Home"
-					component={HomeScreen}
+					component={HomeScreenNavigator}
 					options={{
-						tabBarLabel: 'Home',
 						tabBarIcon: ({ color, size }) => (
 							<FontAwesome
 								name="home"
@@ -43,13 +57,36 @@ export default function App() {
 								size={typography.size.ICON}
 							/>
 						),
+						tabBarLabel: ({ focused }) => (
+							<Text
+								style={{
+									fontFamily: 'Montserrat',
+									color: focused
+										? colors.common.PRIMARY
+										: colors.common.DETAILS,
+								}}
+							>
+								Home
+							</Text>
+						),
 					}}
 				/>
 				<Tab.Screen
 					name="Cart"
-					component={HomeScreen}
+					component={CartScreenNavigator}
 					options={{
-						tabBarLabel: 'Cart',
+						tabBarLabel: ({ focused }) => (
+							<Text
+								style={{
+									fontFamily: 'Montserrat',
+									color: focused
+										? colors.common.PRIMARY
+										: colors.common.DETAILS,
+								}}
+							>
+								Cart
+							</Text>
+						),
 						tabBarIcon: ({ color, size }) => (
 							<FontAwesome
 								name="shopping-cart"
@@ -61,9 +98,20 @@ export default function App() {
 				/>
 				<Tab.Screen
 					name="Order"
-					component={HomeScreen}
+					component={OrderScreenNavigator}
 					options={{
-						tabBarLabel: 'Order',
+						tabBarLabel: ({ focused }) => (
+							<Text
+								style={{
+									fontFamily: 'Montserrat',
+									color: focused
+										? colors.common.PRIMARY
+										: colors.common.DETAILS,
+								}}
+							>
+								Order
+							</Text>
+						),
 						tabBarIcon: ({ color, size }) => (
 							<FontAwesome
 								name="coffee"
@@ -75,9 +123,20 @@ export default function App() {
 				/>
 				<Tab.Screen
 					name="Stores"
-					component={HomeScreen}
+					component={StoresScreenNavigator}
 					options={{
-						tabBarLabel: 'Stores',
+						tabBarLabel: ({ focused }) => (
+							<Text
+								style={{
+									fontFamily: 'Montserrat',
+									color: focused
+										? colors.common.PRIMARY
+										: colors.common.DETAILS,
+								}}
+							>
+								Stores
+							</Text>
+						),
 						tabBarIcon: ({ color }) => (
 							<FontAwesome
 								name="map-marker"

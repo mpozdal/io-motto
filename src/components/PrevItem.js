@@ -5,9 +5,12 @@ import CustomText from './CustomText';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 
-const PrevItem = () => {
+const PrevItem = ({ navigation }) => {
 	return (
-		<TouchableOpacity style={styles.container}>
+		<TouchableOpacity
+			style={styles.container}
+			onPress={() => navigation.navigate('Item', { name: 'CAPPUCCINO' })}
+		>
 			<Image source={require('../assets/coffee1.png')} />
 			<CustomText style={styles.text}>Coffee 1</CustomText>
 		</TouchableOpacity>

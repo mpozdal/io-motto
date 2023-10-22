@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
 		fontSize: typography.size.M,
 		color: colors.common.PRIMARY,
 		fontWeight: 'bold',
+		fontFamily: 'Montserrat',
 	},
 });
 

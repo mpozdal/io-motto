@@ -5,7 +5,7 @@ import CustomText from './CustomText';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 
-const TopItem = ({ navigation }) => {
+const MenuItem = ({ navigation }) => {
 	return (
 		<TouchableOpacity
 			style={styles.container}
@@ -19,22 +19,10 @@ const TopItem = ({ navigation }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		margin: 20,
+		marginTop: 20,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: typography.size.RADIUS,
-		width: 200,
-		height: 170,
-		backgroundColor: 'white',
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 0,
-		},
-		shadowOpacity: 0.2,
-		shadowRadius: 4.49,
-
-		elevation: 12,
+		width: '25%',
 	},
 	text: {
 		marginTop: 5,
@@ -43,4 +31,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default TopItem;
+export default MenuItem;
