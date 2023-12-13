@@ -5,29 +5,38 @@ import CustomText from './CustomText';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 
-const MenuItem = ({ navigation }) => {
+const MenuItem = ({ navigation, item }) => {
 	return (
 		<TouchableOpacity
-			style={styles.container}
-			onPress={() => navigation.navigate('Item', { name: 'CAPPUCCINO' })}
+			style={styles.itemContainer}
+			onPress={() => navigation.navigate('Item', { item: item })}
 		>
-			<Image source={require('../assets/coffee1.png')} />
-			<CustomText style={styles.text}>Coffee 1</CustomText>
+			<Image
+				source={require('../assets/coffee1.png')}
+				style={styles.img}
+			/>
+			<CustomText style={styles.text}>{item.item.name}</CustomText>
 		</TouchableOpacity>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
-		marginTop: 20,
+	itemContainer: {
+		flex: 1 / 3,
+		flexDirection: 'column',
+		margin: 1,
+
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: '25%',
+	},
+	img: {
+		width: 30,
+		resizeMode: 'contain',
 	},
 	text: {
-		marginTop: 5,
+		fontSize: typography.size.S + 2,
+		textAlign: 'center',
 		color: colors.common.DETAILS,
-		fontSize: typography.size.M - 2,
 	},
 });
 

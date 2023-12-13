@@ -7,24 +7,20 @@ import {
 	TouchableOpacity,
 	SafeAreaView,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import CustomText from './CustomText';
 import { colors } from '../themes/colors';
+import Loading from '../screens/Loading';
+import * as SplashScreen from 'expo-splash-screen';
+import { useNavigation } from '@react-navigation/native';
 
-const drinks = [
-	{ id: 1, name: 'Hot Coffees' },
-	{ id: 2, name: 'Iced Coffees' },
-	{ id: 3, name: 'Hot drinks' },
-	{ id: 4, name: 'Cold drinks' },
-];
-const food = [
-	{ id: 1, name: 'Snacks' },
-	{ id: 2, name: 'Pastries' },
-];
-
-const MenuItem = ({ item, openMenu }) => {
+const MenuItem = ({ item }) => {
+	const navigation = useNavigation();
+	const openMenu = () => {
+		navigation.navigate('Menu', { menu: item });
+	};
 	return (
-		<TouchableOpacity onPress={() => openMenu(item.name)}>
+		<TouchableOpacity onPress={openMenu}>
 			<View style={styles.item}>
 				<View style={styles.img}></View>
 				<CustomText style={styles.itemText}>{item.name}</CustomText>
@@ -33,20 +29,18 @@ const MenuItem = ({ item, openMenu }) => {
 	);
 };
 
-const MenuList = ({ navigation }) => {
-	function openMenu(name) {
-		navigation.navigate('Menu', { name: name });
-	}
+const MenuList = ({ navigation, foodMenu, drinksMenu }) => {
+	const [appIsReady, setAppIsReady] = useState(false);
+	console.log(drinksMenu);
+	const viewRef = useRef(null);
+
 	return (
 		<View style={styles.container}>
 			<CustomText style={styles.category}>DRINKS</CustomText>
-			{drinks.map((item) => (
-				<MenuItem item={item} openMenu={openMenu} />
-			))}
-			<CustomText style={styles.category}>FOOD</CustomText>
-			{food.map((item) => (
-				<MenuItem item={item} openMenu={openMenu} />
-			))}
+			{drinksMenu &&
+				drinksMenu.map((element, index) => (
+					<MenuItem item={element} key={index} />
+				))}
 		</View>
 	);
 };

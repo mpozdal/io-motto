@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
 	StyleSheet,
 	View,
@@ -10,17 +10,17 @@ import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
-
-import Header from '../components/Header';
-import Baner from '../components/Baner';
-import PrevOrders from '../components/PrevOrders';
-import TopSelling from '../components/TopSelling';
 import CustomText from '../components/CustomText';
 import HeaderSecondary from '../components/HeaderSecondary';
-
+import { Auth } from 'aws-amplify';
+import { MottoContext } from '../contexts/MottoContext';
 const SettingItem = ({ text, icon }) => {
+	const logout = () => {
+		Auth.signOut();
+	};
+
 	return (
-		<TouchableOpacity>
+		<TouchableOpacity onPress={text === 'Logout' ? logout : ''}>
 			<View style={styles.item}>
 				<View style={styles.leftSide}>
 					{text === 'Logout' ? (
@@ -68,6 +68,7 @@ const SettingScreen = ({ navigation }) => {
 		'Rate us': 'star',
 		Logout: 'log-out',
 	};
+	const { user, setUser } = useContext(MottoContext);
 	return (
 		<View style={{ flex: 1 }}>
 			<HeaderSecondary text="Account" navigation={navigation} stack />
@@ -75,7 +76,7 @@ const SettingScreen = ({ navigation }) => {
 				<CustomText
 					style={{ fontSize: 25, color: colors.common.TEXT2 }}
 				>
-					Michal Pozdal
+					{user.name}
 				</CustomText>
 				<CustomText
 					style={{
@@ -83,11 +84,11 @@ const SettingScreen = ({ navigation }) => {
 						color: colors.common.DETAILS,
 					}}
 				>
-					skav3@wp.pl
+					{user.email}
 				</CustomText>
 			</View>
-			{Object.keys(settings).map((text) => (
-				<SettingItem text={text} icon={settings[text]} />
+			{Object.keys(settings).map((text, index) => (
+				<SettingItem text={text} icon={settings[text]} key={index} />
 			))}
 		</View>
 	);

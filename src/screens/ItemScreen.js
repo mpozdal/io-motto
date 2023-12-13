@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import DropDownPicker from 'react-native-dropdown-picker';
 import {
 	StyleSheet,
 	View,
@@ -12,9 +13,50 @@ import { typography } from '../themes/typography';
 import HeaderSecondary from '../components/HeaderSecondary';
 import CustomText from '../components/CustomText';
 import SizeOption from '../components/SizeOption';
-
+import Button from '../components/Button';
 const ItemScreen = ({ navigation, route }) => {
-	const { name } = route.params;
+	const { item } = route.params;
+
+	const [milkOpen, setMilkOpen] = useState(false);
+	const [milkValue, setMilkValue] = useState('2%');
+	const [shotsOpen, setShotsOpen] = useState(false);
+	const [shotsValue, setShotsValue] = useState([]);
+	const [size, setSize] = useState(item?.item?.sizes?.items[0]);
+
+	const [milks, setMilks] = useState([]);
+	const [shots, setShots] = useState(item?.item?.flavorShots?.items);
+
+	const changeData = () => {
+		const temp = [];
+		const temp2 = [];
+		item.item.milks.items.map((elem) => {
+			const obj = {
+				label: elem.name,
+				value: elem.name,
+			};
+			temp.push(obj);
+		});
+		item.item.flavorShots.items.map((elem) => {
+			const obj = {
+				label: elem.name,
+				value: elem.name,
+			};
+			temp2.push(obj);
+		});
+		setMilks(temp);
+		setShots(temp2);
+	};
+	useEffect(() => {
+		changeData();
+	}, []);
+
+	const addItemToCart = () => {
+		console.log('added to cart');
+	};
+	const handleSetSize = () => {
+		console.log('size');
+	};
+
 	return (
 		<View style={{ flex: 1 }}>
 			<HeaderSecondary text="ADD TO CART" stack navigation={navigation} />
@@ -38,7 +80,7 @@ const ItemScreen = ({ navigation, route }) => {
 								color: colors.common.TEXT2,
 							}}
 						>
-							{name}
+							{item.item.name}
 						</CustomText>
 						<CustomText
 							style={{
@@ -47,11 +89,10 @@ const ItemScreen = ({ navigation, route }) => {
 								color: colors.common.DETAILS,
 							}}
 						>
-							Lorem ipsum dolor sit amet, consectetur adipiscing
-							elit. Integer condimentum purus nec varius tempor.
+							{item.item.description}
 						</CustomText>
 						<CustomText style={{ fontSize: typography.size.XL }}>
-							9,99 zł
+							{item.item.price} zł
 						</CustomText>
 						<View style={{ width: '100%' }}>
 							<CustomText
@@ -63,14 +104,17 @@ const ItemScreen = ({ navigation, route }) => {
 								style={{
 									display: 'flex',
 									flexDirection: 'row',
-									justifyContent: 'space-between',
+									justifyContent: 'space-around',
 									gap: 10,
 									marginTop: 20,
 								}}
 							>
-								<SizeOption value="200 ml" />
-								<SizeOption value="300 ml" />
-								<SizeOption value="400 ml" />
+								{item.item.sizes.items.map((size, index) => (
+									<SizeOption
+										value={size.value + ' ml'}
+										key={size.id}
+									/>
+								))}
 							</View>
 						</View>
 
@@ -84,16 +128,33 @@ const ItemScreen = ({ navigation, route }) => {
 								style={{
 									display: 'flex',
 									flexDirection: 'column',
-									justifyContent: 'space-between',
 									gap: 10,
 									marginTop: 20,
 								}}
 							>
-								<SizeOption value="200 ml" />
-								<SizeOption value="300 ml" />
-								<SizeOption value="400 ml" />
+								<CustomText>Milk</CustomText>
+								<DropDownPicker
+									open={milkOpen}
+									value={milkValue}
+									items={milks}
+									setOpen={setMilkOpen}
+									setValue={setMilkValue}
+									z-index={6000}
+								/>
+								<CustomText>Flavor shots</CustomText>
+								<DropDownPicker
+									open={shotsOpen}
+									value={shotsValue}
+									items={shots}
+									setOpen={setShotsOpen}
+									setValue={setShotsValue}
+									setItems={setMilks}
+								/>
 							</View>
 						</View>
+					</View>
+					<View style={{ alignItems: 'center' }}>
+						<Button text="Add" add log onPress={addItemToCart} />
 					</View>
 				</ScrollView>
 			</View>
@@ -109,14 +170,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignSelf: 'center',
 		width: '90%',
-		display: 'flex',
-		justifyContent: 'center',
+
+		justifyContent: 'space-between',
 		alignItems: 'center',
-		marginBottom: 110,
 	},
 	scroll: {
-		flex: 1,
 		width: '100%',
+		flex: 1,
 	},
 });
 

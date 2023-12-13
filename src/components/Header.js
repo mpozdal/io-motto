@@ -5,28 +5,45 @@ import {
 	SafeAreaView,
 	TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import CustomText from './CustomText';
-
+import { MottoContext } from '../contexts/MottoContext';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 const Header = ({ navigation }) => {
 	function openSettings() {
 		navigation.navigate('Settings');
 	}
+	const { user, stores } = useContext(MottoContext);
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<TouchableOpacity onPress={openSettings}>
-				<View style={styles.avatar}>
-					<CustomText style={styles.textAvatar}>MP</CustomText>
-				</View>
+				{/* <View style={styles.avatar}>
+					<CustomText style={styles.textAvatar}>
+						{user?.name[0]}
+					</CustomText>
+				</View> */}
+				<Icon
+					name="account-circle"
+					size={40}
+					color={colors.common.TEXT1}
+				/>
 			</TouchableOpacity>
-			<CustomText style={styles.text}>Hi, Michal</CustomText>
+			<CustomText style={styles.text}>Hi, {user.name}</CustomText>
 			<View>
 				<CustomText style={styles.store2}>Your store:</CustomText>
-				<CustomText style={styles.store}>ul. Warszawska 24</CustomText>
+				<CustomText style={styles.store}>
+					ul.{' '}
+					{
+						stores[
+							stores.findIndex((elem) => elem.id === user.store)
+						]?.address
+					}
+				</CustomText>
 			</View>
 		</SafeAreaView>
 	);
@@ -42,7 +59,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		color: colors.common.TEXT1,
-		fontSize: typography.size.L,
+		fontSize: typography.size.XL,
 	},
 	textAvatar: {
 		fontSize: typography.size.L,

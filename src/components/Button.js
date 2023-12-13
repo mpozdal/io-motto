@@ -4,10 +4,20 @@ import CustomText from './CustomText';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 
-const Button = ({ text }) => {
+const Button = ({ text, onPress, log, secondary, add }) => {
 	return (
-		<TouchableWithoutFeedback>
-			<View style={styles.btn}>
+		<TouchableWithoutFeedback onPress={onPress}>
+			<View
+				style={{
+					...styles.btn,
+					marginTop: log ? 20 : 0,
+					marginBottom: log ? 20 : 0,
+					backgroundColor: secondary ? 'white' : colors.common.BUTTON,
+					borderColor: secondary ? colors.common.PRIMARY : 'none',
+					borderWidth: secondary ? 3 : 0,
+					width: add ? '100%' : '90%',
+				}}
+			>
 				<CustomText
 					style={{ color: colors.common.PRIMARY, fontSize: 20 }}
 				>
@@ -21,7 +31,7 @@ const Button = ({ text }) => {
 const styles = StyleSheet.create({
 	btn: {
 		width: '90%',
-		height: 70,
+		height: 60,
 		backgroundColor: colors.common.BUTTON,
 		display: 'flex',
 		justifyContent: 'center',
