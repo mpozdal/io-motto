@@ -1,48 +1,33 @@
-import {
-	View,
-	Text,
-	StyleSheet,
-	SafeAreaView,
-	TouchableOpacity,
-} from 'react-native';
-import React, { useContext } from 'react';
+import { View, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import React from 'react';
 
 import CustomText from './CustomText';
-import { MottoContext } from '../contexts/MottoContext';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { useAuthContext } from '../contexts/AuthContext';
+
 const Header = ({ navigation }) => {
+	const { dbUser } = useAuthContext();
+
 	function openSettings() {
 		navigation.navigate('Settings');
 	}
-	const { user, stores } = useContext(MottoContext);
-
 	return (
 		<SafeAreaView style={styles.container}>
 			<TouchableOpacity onPress={openSettings}>
-				{/* <View style={styles.avatar}>
-					<CustomText style={styles.textAvatar}>
-						{user?.name[0]}
-					</CustomText>
-				</View> */}
 				<Icon
 					name="account-circle"
 					size={40}
 					color={colors.common.TEXT1}
 				/>
 			</TouchableOpacity>
-			<CustomText style={styles.text}>Hi, {user.name}</CustomText>
+			<CustomText style={styles.text}>Hi, {dbUser?.name}</CustomText>
 			<View>
 				<CustomText style={styles.store2}>Your store:</CustomText>
 				<CustomText style={styles.store}>
-					ul.{' '}
-					{
-						stores[
-							stores.findIndex((elem) => elem.id === user.store)
-						]?.address
-					}
+					ul. {dbUser?.defaultStore?.address}
 				</CustomText>
 			</View>
 		</SafeAreaView>

@@ -1,12 +1,11 @@
 import {
 	StyleSheet,
-	Text,
 	View,
 	Image,
 	TouchableOpacity,
 	Linking,
 } from 'react-native';
-import React, { useContext } from 'react';
+import React from 'react';
 import CustomText from './CustomText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { colors } from '../themes/colors';
@@ -14,22 +13,10 @@ import Button from './Button';
 import ShopImage from '../assets/shop.jpeg';
 import { typography } from '../themes/typography';
 
-import { FIREBASE_DB } from '../../FireBaseConfig';
-import { setDoc, updateDoc, doc, collection } from 'firebase/firestore';
+import { useAuthContext } from '../contexts/AuthContext';
 
-import { MottoContext } from '../contexts/MottoContext';
-
-const Modal = ({ selected, setModalVisible, modalVisible }) => {
-	const { user, setUser } = useContext(MottoContext);
-	const updateStore = async (id) => {
-		await updateDoc(doc(FIREBASE_DB, 'users', user.id), {
-			store: id,
-		});
-		const temp = { ...user };
-		temp.store = id;
-		setUser(temp);
-		setModalVisible(false);
-	};
+const Modal = ({ selected, setModalVisible }) => {
+	const { setDefaultStore } = useAuthContext();
 	return (
 		<View style={styles.centeredView}>
 			<View style={styles.modalView}>
@@ -94,7 +81,8 @@ const Modal = ({ selected, setModalVisible, modalVisible }) => {
 				<Button
 					text="Set as default store"
 					onPress={() => {
-						updateStore(selected.id);
+						setDefaultStore(selected.id);
+						setModalVisible(false);
 					}}
 				/>
 			</View>

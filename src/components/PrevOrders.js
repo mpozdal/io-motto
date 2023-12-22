@@ -1,9 +1,8 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import React from 'react';
 import CustomText from './CustomText';
 
 import { colors } from '../themes/colors';
-import { typography } from '../themes/typography';
 import PrevItem from './PrevItem';
 
 const PrevOrders = ({ navigation }) => {

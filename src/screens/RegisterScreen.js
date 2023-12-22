@@ -18,7 +18,7 @@ import Logo from '../assets/logo.png';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 import CustomText from '../components/CustomText';
-import { createUser } from '../graphql/mutations';
+import { createBasket, createUser } from '../graphql/mutations';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 
 const ROLE = '99347c14-839f-4fc9-976e-6f8dad2c7a3d';
@@ -58,6 +58,7 @@ const LoginScreen = ({ navigation }) => {
 					},
 				})
 			);
+			
 		} catch (e) {
 			console.log(e);
 		}

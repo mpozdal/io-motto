@@ -1,43 +1,20 @@
 import React, { useEffect, useState, useCallback, useContext } from 'react';
-import {
-	StyleSheet,
-	View,
-	Modal,
-	Text,
-	Pressable,
-	Touchable,
-	TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, Modal } from 'react-native';
 import { colors } from '../themes/colors';
-import { typography } from '../themes/typography';
 import * as SplashScreen from 'expo-splash-screen';
 import HeaderSecondary from '../components/HeaderSecondary';
 import ModalView from '../components/Modal';
 import MapView, { Marker } from 'react-native-maps';
-import { MottoContext } from '../contexts/MottoContext';
-import { API, graphqlOperation } from 'aws-amplify';
+import { useStoresContext } from '../contexts/StoresContext';
+
 SplashScreen.preventAutoHideAsync();
 
-import { listStores } from '../graphql/queries';
-
 const StoresScreen = ({ navigation }) => {
-	const { stores, setStores } = useContext(MottoContext);
+	const { stores } = useStoresContext();
+
 	const [appIsReady, setAppIsReady] = useState(false);
 	const [selected, setSelected] = useState({});
 	const [modalVisible, setModalVisible] = useState(false);
-
-	const fetchStores = async () => {
-		try {
-			const response = await API.graphql(graphqlOperation(listStores));
-			console.log(response.data.listStores.items);
-			setStores(response.data.listStores.items);
-		} catch (e) {
-			console.warn(e);
-		}
-	};
-	useEffect(() => {
-		fetchStores();
-	}, []);
 
 	return (
 		<View style={styles.container}>
@@ -78,10 +55,10 @@ const StoresScreen = ({ navigation }) => {
 							key={index}
 							coordinate={{
 								latitude: store.latitude,
-								longitude: store.longitude,
+								longitude: store.longtitude,
 							}}
 							pinColor={colors.common.SECONDARY}
-						/>
+						></Marker>
 					))}
 				</MapView>
 			</View>

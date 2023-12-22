@@ -11,79 +11,19 @@ import { onCreateBasketItem } from '../graphql/subscriptions';
 import { useBasketContext } from '../contexts/BasketContext';
 import { useOrderContext } from '../contexts/OrderContext';
 
-const Summary = ({ price }) => {
-	return (
-		<View style={styles.summary}>
-			<View>
-				<CustomText style={{ fontSize: 12 }}>ORDER SUMMARY</CustomText>
-			</View>
-			<View
-				style={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'space-between',
-				}}
-			>
-				<CustomText style={{ fontSize: 25 }}>Total</CustomText>
-				<CustomText style={{ fontSize: 25 }}>{price} zł</CustomText>
-			</View>
-		</View>
-	);
-};
-
-const CartScreen = ({ navigation }) => {
+const OrderDetailsScreen = ({ navigation, route }) => {
 	const { basketContent, price, setUpdate, update } = useBasketContext();
 	const { handleCreateOrder, ordering } = useOrderContext();
-
-	useEffect(() => {
-		setUpdate(false);
-	}, [basketContent, update]);
-
-	if (ordering) {
-		navigation.navigate('Progress');
-	}
-
+	const { orderInfo } = route?.params;
 	return (
 		<>
 			<View style={styles.container}>
-				<HeaderSecondary navigation={navigation} text="CART" store />
-				{basketContent.length > 0 ? (
-					<>
-						<View style={styles.main}>
-							<ScrollView showsVerticalScrollIndicator={false}>
-								{basketContent.map((item, index) => (
-									<CartItem item={item} key={index} />
-								))}
-							</ScrollView>
-						</View>
-						<View style={styles.checkoutContainer}>
-							<Summary price={price} />
-							<Button
-								text="PAY NOW"
-								onPress={() => {
-									handleCreateOrder();
-								}}
-							/>
-						</View>
-					</>
-				) : (
-					<View
-						style={{
-							flex: 1,
-							justifyContent: 'center',
-							alignItems: 'center',
-							gap: 50,
-						}}
-					>
-						<CustomText
-							style={{
-								fontSize: typography.size.XL,
-							}}
-						>
-							Cart is empty
-						</CustomText>
-					</View>
-				)}
+				<HeaderSecondary
+					navigation={navigation}
+					text="Order details"
+					stack
+				/>
+				<CustomText>{orderInfo.id}</CustomText>
 			</View>
 		</>
 	);
@@ -130,4 +70,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default CartScreen;
+export default OrderDetailsScreen;

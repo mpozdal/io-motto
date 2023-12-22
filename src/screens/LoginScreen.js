@@ -1,30 +1,22 @@
 import {
-	ImageBackground,
-	KeyboardAvoidingView,
 	SafeAreaView,
 	StyleSheet,
-	Text,
 	TextInput,
-	Image,
 	View,
 	TouchableOpacity,
-	Keyboard,
-	TouchableWithoutFeedback,
-	ActivityIndicator,
 } from 'react-native';
 import React, { useState } from 'react';
 import Button from '../components/Button';
-import ImageBG from '../assets/background-mobile.png';
-import Logo from '../assets/logo.png';
-import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 import CustomText from '../components/CustomText';
 import * as SplashScreen from 'expo-splash-screen';
-
+import { useAuthContext } from '../contexts/AuthContext';
 import Loading from './Loading';
 import { Auth } from 'aws-amplify';
 
 const LoginScreen = ({ navigation }) => {
+	const { setAuthUser } = useAuthContext();
+
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
@@ -33,9 +25,7 @@ const LoginScreen = ({ navigation }) => {
 		if (email === '' || password === '') return;
 		setLoading(true);
 		try {
-			const response = await Auth.signIn(email, password);
-			console.log(response);
-			navigation.navigate('Home');
+			await Auth.signIn(email, password);
 		} catch (err) {
 			alert(err.message);
 			console.log(err);

@@ -1,12 +1,21 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import CustomText from './CustomText';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
-
-const ManageButton = ({ text }) => {
+import { useBasketContext } from '../contexts/BasketContext';
+import { useNavigation } from '@react-navigation/native';
+const ManageButton = ({ text, id, item, edit }) => {
+	const { removeItemFromBasket } = useBasketContext();
+	const navigation = useNavigation();
 	return (
-		<TouchableOpacity>
+		<TouchableOpacity
+			onPress={() => {
+				text === 'REMOVE'
+					? removeItemFromBasket(id)
+					: console.log('edit');
+			}}
+		>
 			<View>
 				<CustomText
 					style={{
@@ -25,30 +34,29 @@ const ManageButton = ({ text }) => {
 	);
 };
 
-const CartItem = () => {
+const CartItem = ({ item }) => {
 	return (
 		<View style={styles.container}>
 			<Image source={require('../assets/coffee1.png')} />
 
 			<View style={styles.rightSide}>
 				<CustomText style={{ fontSize: typography.size.L }}>
-					CAPPUCCINO
+					{item.name}
 				</CustomText>
 				<View style={styles.desc}>
-					<CustomText style={styles.opt}>300 ml</CustomText>
-					<CustomText style={styles.opt}>2%</CustomText>
-					<CustomText style={styles.opt}>carmel shot</CustomText>
+					<CustomText style={styles.opt}>{item.size} ml</CustomText>
+					<CustomText style={styles.opt}>{item.milk}</CustomText>
 				</View>
 				<CustomText
 					style={{
 						fontSize: typography.size.L,
 					}}
 				>
-					9,99 zł
+					{item.price} zł
 				</CustomText>
 				<View style={styles.manage}>
-					<ManageButton text="EDIT" />
-					<ManageButton text="REMOVE" />
+					{/* <ManageButton text="EDIT" edit item={item} /> */}
+					<ManageButton text="REMOVE" id={item.id} />
 				</View>
 			</View>
 		</View>
@@ -76,7 +84,7 @@ const styles = StyleSheet.create({
 	manage: {
 		display: 'flex',
 		flexDirection: 'row',
-		justifyContent: 'space-between',
+		justifyContent: 'flex-end',
 	},
 	opt: {
 		fontSize: typography.size.S,

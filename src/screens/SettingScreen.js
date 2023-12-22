@@ -13,62 +13,41 @@ import Feather from 'react-native-vector-icons/Feather';
 import CustomText from '../components/CustomText';
 import HeaderSecondary from '../components/HeaderSecondary';
 import { Auth } from 'aws-amplify';
-import { MottoContext } from '../contexts/MottoContext';
-const SettingItem = ({ text, icon }) => {
-	const logout = () => {
-		Auth.signOut();
-	};
-
-	return (
-		<TouchableOpacity onPress={text === 'Logout' ? logout : ''}>
-			<View style={styles.item}>
-				<View style={styles.leftSide}>
-					{text === 'Logout' ? (
-						<>
-							<Feather
-								name={icon}
-								style={{
-									...styles.icon,
-									color: colors.common.REMOVE,
-								}}
-							/>
-							<CustomText
-								style={{
-									...styles.text,
-									color: colors.common.REMOVE,
-								}}
-							>
-								{text}
-							</CustomText>
-						</>
-					) : (
-						<>
-							<Feather name={icon} style={styles.icon} />
-							<CustomText style={styles.text}>{text}</CustomText>
-						</>
-					)}
-				</View>
-				{text !== 'Logout' ? (
-					<MaterialIcons
-						name="arrow-forward-ios"
-						style={styles.arrow}
-					/>
-				) : (
-					<></>
-				)}
-			</View>
-		</TouchableOpacity>
-	);
-};
+import { useAuthContext } from '../contexts/AuthContext';
+import { useSettingsContext } from '../contexts/SettingsContext';
+import ListItem from '../components/ListItem';
 
 const SettingScreen = ({ navigation }) => {
-	const settings = {
-		Orders: 'coffee',
-		'Edit account': 'edit',
-		'Rate us': 'star',
-		Logout: 'log-out',
-	};
-	const { user, setUser } = useContext(MottoContext);
+	const { dbUser } = useAuthContext();
+	const { handleLogout, handleShowOrders } = useSettingsContext();
+
+	const settings = [
+		{
+			name: 'Orders',
+			icon: 'coffee',
+			fn: handleShowOrders,
+			param: navigation,
+		},
+		{
+			name: 'Edit account',
+			icon: 'edit',
+			fn: '',
+			param: navigation,
+		},
+
+		{
+			name: 'Rate us',
+			icon: 'star',
+			fn: '',
+			param: navigation,
+		},
+		{
+			name: 'Logout',
+			icon: 'log-out',
+			fn: handleLogout,
+			param: navigation,
+		},
+	];
 	return (
 		<View style={{ flex: 1 }}>
 			<HeaderSecondary text="Account" navigation={navigation} stack />
@@ -76,7 +55,7 @@ const SettingScreen = ({ navigation }) => {
 				<CustomText
 					style={{ fontSize: 25, color: colors.common.TEXT2 }}
 				>
-					{user.name}
+					{dbUser?.name}
 				</CustomText>
 				<CustomText
 					style={{
@@ -84,11 +63,17 @@ const SettingScreen = ({ navigation }) => {
 						color: colors.common.DETAILS,
 					}}
 				>
-					{user.email}
+					{dbUser?.email}
 				</CustomText>
 			</View>
-			{Object.keys(settings).map((text, index) => (
-				<SettingItem text={text} icon={settings[text]} key={index} />
+			{settings.map((setting, index) => (
+				<ListItem
+					text={setting.name}
+					icon={setting.icon}
+					key={index}
+					onPress={setting.fn}
+					param={setting?.param}
+				/>
 			))}
 		</View>
 	);

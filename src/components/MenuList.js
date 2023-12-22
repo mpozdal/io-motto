@@ -1,17 +1,7 @@
-import {
-	View,
-	Text,
-	FlatList,
-	StyleSheet,
-	Image,
-	TouchableOpacity,
-	SafeAreaView,
-} from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import CustomText from './CustomText';
 import { colors } from '../themes/colors';
-import Loading from '../screens/Loading';
-import * as SplashScreen from 'expo-splash-screen';
 import { useNavigation } from '@react-navigation/native';
 
 const MenuItem = ({ item }) => {
@@ -29,14 +19,9 @@ const MenuItem = ({ item }) => {
 	);
 };
 
-const MenuList = ({ navigation, foodMenu, drinksMenu }) => {
-	const [appIsReady, setAppIsReady] = useState(false);
-	console.log(drinksMenu);
-	const viewRef = useRef(null);
-
+const MenuList = ({ drinksMenu }) => {
 	return (
 		<View style={styles.container}>
-			<CustomText style={styles.category}>DRINKS</CustomText>
 			{drinksMenu &&
 				drinksMenu.map((element, index) => (
 					<MenuItem item={element} key={index} />

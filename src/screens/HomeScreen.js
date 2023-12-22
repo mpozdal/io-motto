@@ -5,29 +5,11 @@ import Header from '../components/Header';
 import Baner from '../components/Baner';
 import PrevOrders from '../components/PrevOrders';
 import TopSelling from '../components/TopSelling';
-import { MottoContext } from '../contexts/MottoContext';
-
-import Loading from './Loading';
-
+import { useAuthContext } from '../contexts/AuthContext';
 SplashScreen.preventAutoHideAsync();
 import { Auth } from 'aws-amplify';
 const HomeScreen = ({ navigation, route }) => {
 	const [appIsReady, setAppIsReady] = useState(false);
-	const [user, setUser] = useState(undefined);
-	const checkUser = async () => {
-		try {
-			const authUser = await Auth.currentAuthenticatedUser({
-				bypassCache: true,
-			});
-			setUser(authUser);
-		} catch (e) {
-			setUser(null);
-		}
-	};
-	useEffect(() => {
-		checkUser();
-		console.log(user?.attributes?.preferred_username);
-	}, []);
 
 	useEffect(() => {
 		async function prepare() {

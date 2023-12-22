@@ -11,42 +11,14 @@ export const getBasketItem = /* GraphQL */ `
 				description
 				price
 				sizes {
-					items {
-						id
-						value
-						extraCost
-						createdAt
-						updatedAt
-						drinkSizesId
-						__typename
-					}
 					nextToken
 					__typename
 				}
 				flavorShots {
-					items {
-						id
-						name
-						extraCost
-						basketitemID
-						createdAt
-						updatedAt
-						orderItemFlavorShotsId
-						drinkFlavorShotsId
-						__typename
-					}
 					nextToken
 					__typename
 				}
 				milks {
-					items {
-						id
-						name
-						createdAt
-						updatedAt
-						drinkMilksId
-						__typename
-					}
 					nextToken
 					__typename
 				}
@@ -112,46 +84,6 @@ export const listBasketItems = /* GraphQL */ `
 					name
 					description
 					price
-					sizes {
-						items {
-							id
-							value
-							extraCost
-							createdAt
-							updatedAt
-							drinkSizesId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					flavorShots {
-						items {
-							id
-							name
-							extraCost
-							basketitemID
-							createdAt
-							updatedAt
-							orderItemFlavorShotsId
-							drinkFlavorShotsId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					milks {
-						items {
-							id
-							name
-							createdAt
-							updatedAt
-							drinkMilksId
-							__typename
-						}
-						nextToken
-						__typename
-					}
 					createdAt
 					updatedAt
 					categoryDrinksId
@@ -176,17 +108,6 @@ export const listBasketItems = /* GraphQL */ `
 					__typename
 				}
 				FlavorShots {
-					items {
-						id
-						name
-						extraCost
-						basketitemID
-						createdAt
-						updatedAt
-						orderItemFlavorShotsId
-						drinkFlavorShotsId
-						__typename
-					}
 					nextToken
 					__typename
 				}
@@ -225,46 +146,6 @@ export const basketItemsByBasketID = /* GraphQL */ `
 					name
 					description
 					price
-					sizes {
-						items {
-							id
-							value
-							extraCost
-							createdAt
-							updatedAt
-							drinkSizesId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					flavorShots {
-						items {
-							id
-							name
-							extraCost
-							basketitemID
-							createdAt
-							updatedAt
-							orderItemFlavorShotsId
-							drinkFlavorShotsId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					milks {
-						items {
-							id
-							name
-							createdAt
-							updatedAt
-							drinkMilksId
-							__typename
-						}
-						nextToken
-						__typename
-					}
 					createdAt
 					updatedAt
 					categoryDrinksId
@@ -289,17 +170,6 @@ export const basketItemsByBasketID = /* GraphQL */ `
 					__typename
 				}
 				FlavorShots {
-					items {
-						id
-						name
-						extraCost
-						basketitemID
-						createdAt
-						updatedAt
-						orderItemFlavorShotsId
-						drinkFlavorShotsId
-						__typename
-					}
 					nextToken
 					__typename
 				}
@@ -325,31 +195,6 @@ export const getBasket = /* GraphQL */ `
 				name
 				email
 				orders {
-					items {
-						id
-						items {
-							nextToken
-							__typename
-						}
-						store {
-							id
-							address
-							latitude
-							longtitude
-							openingHour
-							closingHour
-							createdAt
-							updatedAt
-							__typename
-						}
-						total
-						status
-						createdAt
-						updatedAt
-						userOrdersId
-						orderStoreId
-						__typename
-					}
 					nextToken
 					__typename
 				}
@@ -391,61 +236,7 @@ export const getBasket = /* GraphQL */ `
 			BasketItems {
 				items {
 					id
-					Drink {
-						id
-						name
-						description
-						price
-						sizes {
-							nextToken
-							__typename
-						}
-						flavorShots {
-							nextToken
-							__typename
-						}
-						milks {
-							nextToken
-							__typename
-						}
-						createdAt
-						updatedAt
-						categoryDrinksId
-						__typename
-					}
 					basketID
-					Milk {
-						id
-						name
-						createdAt
-						updatedAt
-						drinkMilksId
-						__typename
-					}
-					Size {
-						id
-						value
-						extraCost
-						createdAt
-						updatedAt
-						drinkSizesId
-						__typename
-					}
-					FlavorShots {
-						items {
-							id
-							name
-							extraCost
-							basketitemID
-							createdAt
-							updatedAt
-							orderItemFlavorShotsId
-							drinkFlavorShotsId
-							__typename
-						}
-						nextToken
-						__typename
-					}
 					price
 					createdAt
 					updatedAt
@@ -478,38 +269,6 @@ export const listBaskets = /* GraphQL */ `
 					id
 					name
 					email
-					orders {
-						items {
-							id
-							total
-							status
-							createdAt
-							updatedAt
-							userOrdersId
-							orderStoreId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					defaultStore {
-						id
-						address
-						latitude
-						longtitude
-						openingHour
-						closingHour
-						createdAt
-						updatedAt
-						__typename
-					}
-					role {
-						id
-						name
-						createdAt
-						updatedAt
-						__typename
-					}
 					createdAt
 					updatedAt
 					userDefaultStoreId
@@ -530,48 +289,19 @@ export const listBaskets = /* GraphQL */ `
 				BasketItems {
 					items {
 						id
+						price
 						Drink {
-							id
 							name
-							description
-							price
-							createdAt
-							updatedAt
-							categoryDrinksId
-							__typename
+							id
 						}
-						basketID
 						Milk {
-							id
 							name
-							createdAt
-							updatedAt
-							drinkMilksId
-							__typename
 						}
 						Size {
-							id
 							value
 							extraCost
-							createdAt
-							updatedAt
-							drinkSizesId
-							__typename
 						}
-						FlavorShots {
-							nextToken
-							__typename
-						}
-						price
-						createdAt
-						updatedAt
-						basketItemDrinkId
-						basketItemMilkId
-						basketItemSizeId
-						__typename
 					}
-					nextToken
-					__typename
 				}
 				createdAt
 				updatedAt
@@ -593,32 +323,6 @@ export const getUser = /* GraphQL */ `
 			orders {
 				items {
 					id
-					items {
-						items {
-							id
-							price
-							orderID
-							createdAt
-							updatedAt
-							orderItemDrinkId
-							orderItemMilkId
-							orderItemSizeId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					store {
-						id
-						address
-						latitude
-						longtitude
-						openingHour
-						closingHour
-						createdAt
-						updatedAt
-						__typename
-					}
 					total
 					status
 					createdAt
@@ -668,31 +372,6 @@ export const listUsers = /* GraphQL */ `
 				name
 				email
 				orders {
-					items {
-						id
-						items {
-							nextToken
-							__typename
-						}
-						store {
-							id
-							address
-							latitude
-							longtitude
-							openingHour
-							closingHour
-							createdAt
-							updatedAt
-							__typename
-						}
-						total
-						status
-						createdAt
-						updatedAt
-						userOrdersId
-						orderStoreId
-						__typename
-					}
 					nextToken
 					__typename
 				}
@@ -804,46 +483,6 @@ export const getCategory = /* GraphQL */ `
 					name
 					description
 					price
-					sizes {
-						items {
-							id
-							value
-							extraCost
-							createdAt
-							updatedAt
-							drinkSizesId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					flavorShots {
-						items {
-							id
-							name
-							extraCost
-							basketitemID
-							createdAt
-							updatedAt
-							orderItemFlavorShotsId
-							drinkFlavorShotsId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					milks {
-						items {
-							id
-							name
-							createdAt
-							updatedAt
-							drinkMilksId
-							__typename
-						}
-						nextToken
-						__typename
-					}
 					createdAt
 					updatedAt
 					categoryDrinksId
@@ -869,28 +508,6 @@ export const listCategories = /* GraphQL */ `
 				id
 				name
 				drinks {
-					items {
-						id
-						name
-						description
-						price
-						sizes {
-							nextToken
-							__typename
-						}
-						flavorShots {
-							nextToken
-							__typename
-						}
-						milks {
-							nextToken
-							__typename
-						}
-						createdAt
-						updatedAt
-						categoryDrinksId
-						__typename
-					}
 					nextToken
 					__typename
 				}
@@ -913,42 +530,14 @@ export const getOrderItem = /* GraphQL */ `
 				description
 				price
 				sizes {
-					items {
-						id
-						value
-						extraCost
-						createdAt
-						updatedAt
-						drinkSizesId
-						__typename
-					}
 					nextToken
 					__typename
 				}
 				flavorShots {
-					items {
-						id
-						name
-						extraCost
-						basketitemID
-						createdAt
-						updatedAt
-						orderItemFlavorShotsId
-						drinkFlavorShotsId
-						__typename
-					}
 					nextToken
 					__typename
 				}
 				milks {
-					items {
-						id
-						name
-						createdAt
-						updatedAt
-						drinkMilksId
-						__typename
-					}
 					nextToken
 					__typename
 				}
@@ -1014,46 +603,6 @@ export const listOrderItems = /* GraphQL */ `
 					name
 					description
 					price
-					sizes {
-						items {
-							id
-							value
-							extraCost
-							createdAt
-							updatedAt
-							drinkSizesId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					flavorShots {
-						items {
-							id
-							name
-							extraCost
-							basketitemID
-							createdAt
-							updatedAt
-							orderItemFlavorShotsId
-							drinkFlavorShotsId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					milks {
-						items {
-							id
-							name
-							createdAt
-							updatedAt
-							drinkMilksId
-							__typename
-						}
-						nextToken
-						__typename
-					}
 					createdAt
 					updatedAt
 					categoryDrinksId
@@ -1077,17 +626,6 @@ export const listOrderItems = /* GraphQL */ `
 					__typename
 				}
 				flavorShots {
-					items {
-						id
-						name
-						extraCost
-						basketitemID
-						createdAt
-						updatedAt
-						orderItemFlavorShotsId
-						drinkFlavorShotsId
-						__typename
-					}
 					nextToken
 					__typename
 				}
@@ -1127,46 +665,6 @@ export const orderItemsByOrderID = /* GraphQL */ `
 					name
 					description
 					price
-					sizes {
-						items {
-							id
-							value
-							extraCost
-							createdAt
-							updatedAt
-							drinkSizesId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					flavorShots {
-						items {
-							id
-							name
-							extraCost
-							basketitemID
-							createdAt
-							updatedAt
-							orderItemFlavorShotsId
-							drinkFlavorShotsId
-							__typename
-						}
-						nextToken
-						__typename
-					}
-					milks {
-						items {
-							id
-							name
-							createdAt
-							updatedAt
-							drinkMilksId
-							__typename
-						}
-						nextToken
-						__typename
-					}
 					createdAt
 					updatedAt
 					categoryDrinksId
@@ -1190,17 +688,6 @@ export const orderItemsByOrderID = /* GraphQL */ `
 					__typename
 				}
 				flavorShots {
-					items {
-						id
-						name
-						extraCost
-						basketitemID
-						createdAt
-						updatedAt
-						orderItemFlavorShotsId
-						drinkFlavorShotsId
-						__typename
-					}
 					nextToken
 					__typename
 				}
@@ -1225,60 +712,6 @@ export const getOrder = /* GraphQL */ `
 			items {
 				items {
 					id
-					drink {
-						id
-						name
-						description
-						price
-						sizes {
-							nextToken
-							__typename
-						}
-						flavorShots {
-							nextToken
-							__typename
-						}
-						milks {
-							nextToken
-							__typename
-						}
-						createdAt
-						updatedAt
-						categoryDrinksId
-						__typename
-					}
-					milk {
-						id
-						name
-						createdAt
-						updatedAt
-						drinkMilksId
-						__typename
-					}
-					size {
-						id
-						value
-						extraCost
-						createdAt
-						updatedAt
-						drinkSizesId
-						__typename
-					}
-					flavorShots {
-						items {
-							id
-							name
-							extraCost
-							basketitemID
-							createdAt
-							updatedAt
-							orderItemFlavorShotsId
-							drinkFlavorShotsId
-							__typename
-						}
-						nextToken
-						__typename
-					}
 					price
 					orderID
 					createdAt
@@ -1322,48 +755,6 @@ export const listOrders = /* GraphQL */ `
 			items {
 				id
 				items {
-					items {
-						id
-						drink {
-							id
-							name
-							description
-							price
-							createdAt
-							updatedAt
-							categoryDrinksId
-							__typename
-						}
-						milk {
-							id
-							name
-							createdAt
-							updatedAt
-							drinkMilksId
-							__typename
-						}
-						size {
-							id
-							value
-							extraCost
-							createdAt
-							updatedAt
-							drinkSizesId
-							__typename
-						}
-						flavorShots {
-							nextToken
-							__typename
-						}
-						price
-						orderID
-						createdAt
-						updatedAt
-						orderItemDrinkId
-						orderItemMilkId
-						orderItemSizeId
-						__typename
-					}
 					nextToken
 					__typename
 				}
@@ -1458,42 +849,14 @@ export const listDrinks = /* GraphQL */ `
 				description
 				price
 				sizes {
-					items {
-						id
-						value
-						extraCost
-						createdAt
-						updatedAt
-						drinkSizesId
-						__typename
-					}
 					nextToken
 					__typename
 				}
 				flavorShots {
-					items {
-						id
-						name
-						extraCost
-						basketitemID
-						createdAt
-						updatedAt
-						orderItemFlavorShotsId
-						drinkFlavorShotsId
-						__typename
-					}
 					nextToken
 					__typename
 				}
 				milks {
-					items {
-						id
-						name
-						createdAt
-						updatedAt
-						drinkMilksId
-						__typename
-					}
 					nextToken
 					__typename
 				}

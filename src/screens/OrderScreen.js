@@ -24,13 +24,13 @@ const OrderScreen = ({ navigation }) => {
 			console.warn(e);
 		}
 	};
-	
+
 	if (!setAppIsReady) {
 		return null;
 	}
 	return (
 		<View style={styles.container}>
-			<HeaderSecondary navigation={navigation} text="ORDER" />
+			<HeaderSecondary navigation={navigation} text="ORDER" store />
 			<View style={styles.main}>
 				<ScrollView style={{ flexGrow: 1 }}>
 					<MenuList navigation={navigation} drinksMenu={drinksMenu} />

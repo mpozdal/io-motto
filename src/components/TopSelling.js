@@ -1,15 +1,8 @@
-import {
-	View,
-	Text,
-	StyleSheet,
-	ScrollView,
-	TouchableOpacity,
-} from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import React from 'react';
 import CustomText from './CustomText';
 
 import { colors } from '../themes/colors';
-import { typography } from '../themes/typography';
 import TopItem from './TopItem';
 
 const TopSelling = ({ navigation }) => {
