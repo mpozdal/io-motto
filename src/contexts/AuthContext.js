@@ -1,9 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-
-import { getUser, listOrders } from '../graphql/queries';
+import { getOrder, getUser, listOrders } from '../graphql/queries';
 import { updateUser } from '../graphql/mutations';
-import { onCreateBasket, onCreateOrder } from '../graphql/subscriptions';
+import { onCreateOrder, onUpdateOrder } from '../graphql/subscriptions';
 
 const AuthContext = createContext({});
 
@@ -14,6 +13,7 @@ const AuthContextProvider = ({ children }) => {
 	const [store, setStore] = useState(null);
 	const [orders, setOrders] = useState([]);
 	const [pastOrders, setPastOrders] = useState([]);
+	const [refreshing, setRefreshing] = useState(false);
 	useEffect(() => {
 		if (authUser) {
 			setSub(authUser?.attributes?.sub);
@@ -35,6 +35,7 @@ const AuthContextProvider = ({ children }) => {
 			setStore(res.data.updateUser.userDefaultStoreId);
 		} catch (e) {
 			console.warn(e);
+		} finally {
 		}
 	};
 
@@ -48,6 +49,7 @@ const AuthContextProvider = ({ children }) => {
 
 	const fetchUserOrders = async () => {
 		try {
+			setRefreshing(true);
 			await API.graphql(
 				graphqlOperation(listOrders, {
 					input: {
@@ -59,8 +61,8 @@ const AuthContextProvider = ({ children }) => {
 				const tempPastOrders = [];
 				response?.data?.listOrders?.items.map((elem) => {
 					if (
-						elem.status === 'completed' ||
-						elem.status === 'canceled'
+						elem.status === 'picked up' ||
+						elem.status === 'cancelled'
 					) {
 						tempPastOrders.push(elem);
 					} else tempOrders.push(elem);
@@ -75,13 +77,44 @@ const AuthContextProvider = ({ children }) => {
 			});
 		} catch (e) {
 			console.warn(e);
+		} finally {
+			setRefreshing(false);
 		}
 	};
 
-	
+	useEffect(() => {
+		const updateSub = API.graphql(
+			graphqlOperation(onUpdateOrder, {
+				filter: {
+					userID: {
+						eq: sub,
+					},
+				},
+			})
+		).subscribe({
+			next: ({ value }) => {
+				fetchUserOrders();
+			},
+			error: (err) => console.log(err),
+		});
+
+		return () => {
+			updateSub.unsubscribe();
+		};
+	}, []);
+
+	const fetchOrderData = async (id) => {
+		const response = await API.graphql(
+			graphqlOperation(getOrder, {
+				id: id,
+			})
+		);
+		console.log(response);
+	};
 	return (
 		<AuthContext.Provider
 			value={{
+				fetchOrderData,
 				authUser,
 				dbUser,
 				sub,
@@ -90,6 +123,7 @@ const AuthContextProvider = ({ children }) => {
 				orders,
 				pastOrders,
 				fetchUserOrders,
+				refreshing,
 			}}
 		>
 			{children}

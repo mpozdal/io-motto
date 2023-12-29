@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { StyleSheet, View, ScrollView, RefreshControl } from 'react-native';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 import HeaderSecondary from '../components/HeaderSecondary';
@@ -7,12 +7,13 @@ import { useAuthContext } from '../contexts/AuthContext';
 import CustomText from '../components/CustomText';
 import ListItem from '../components/ListItem';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import HomeScreen from './HomeScreen';
-import { onCreateOrder } from '../graphql/subscriptions';
-import { API, graphqlOperation } from 'aws-amplify';
 const Tab = createMaterialTopTabNavigator();
 
 const OrdersScreen = ({ navigation }) => {
+	const { orders, pastOrders } = useAuthContext();
+	useEffect(() => {
+		console.log('status update');
+	}, [orders, pastOrders]);
 	return (
 		<>
 			<View style={styles.container}>
@@ -35,7 +36,7 @@ const OrdersScreen = ({ navigation }) => {
 					}}
 				>
 					<Tab.Screen name="New" component={OngoingOrdersView} />
-					<Tab.Screen name="Past" component={PastOrdersView} />
+					<Tab.Screen name="History" component={PastOrdersView} />
 				</Tab.Navigator>
 			</View>
 		</>
@@ -43,11 +44,20 @@ const OrdersScreen = ({ navigation }) => {
 };
 
 const OngoingOrdersView = ({ navigation }) => {
-	const { orders } = useAuthContext();
+	const { orders, fetchUserOrders, refreshing } = useAuthContext();
+
+	const onRefresh = useCallback(() => {
+		fetchUserOrders();
+	}, []);
 
 	return (
-		<ScrollView>
-			{orders ? (
+		<ScrollView
+			style={{ flex: 1 }}
+			refreshControl={
+				<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+			}
+		>
+			{orders.length !== 0 ? (
 				orders.map((order, index) => (
 					<ListItem
 						key={order.id}
@@ -60,16 +70,34 @@ const OngoingOrdersView = ({ navigation }) => {
 					/>
 				))
 			) : (
-				<CustomText>Order now!</CustomText>
+				<View
+					style={{
+						justifyContent: 'center',
+						alignItems: 'center',
+						height: 100,
+						flex: 1,
+					}}
+				>
+					<CustomText style={{ fontSize: 20 }}>
+						Nothing here...
+					</CustomText>
+				</View>
 			)}
 		</ScrollView>
 	);
 };
 const PastOrdersView = ({ navigation }) => {
-	const { pastOrders } = useAuthContext();
+	const { pastOrders, refreshing, fetchUserOrders } = useAuthContext();
+	const onRefresh = useCallback(() => {
+		fetchUserOrders();
+	}, []);
 	return (
-		<ScrollView>
-			{pastOrders ? (
+		<ScrollView
+			refreshControl={
+				<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+			}
+		>
+			{pastOrders.length !== 0 ? (
 				pastOrders.map((order, index) => (
 					<ListItem
 						key={order.id}
@@ -82,7 +110,17 @@ const PastOrdersView = ({ navigation }) => {
 					/>
 				))
 			) : (
-				<CustomText>Order now!</CustomText>
+				<View
+					style={{
+						justifyContent: 'center',
+						alignItems: 'center',
+						height: 100,
+					}}
+				>
+					<CustomText style={{ fontSize: 20 }}>
+						Nothing here...
+					</CustomText>
+				</View>
 			)}
 		</ScrollView>
 	);

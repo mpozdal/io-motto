@@ -11,7 +11,13 @@ const PrevItem = ({ navigation }) => {
 			style={styles.container}
 			onPress={() => navigation.navigate('Item', { name: 'CAPPUCCINO' })}
 		>
-			<Image source={require('../assets/coffee1.png')} />
+			<Image
+				source={require('../assets/coffee1.png')}
+				style={{
+					resizeMode: 'contain',
+					width: 200,
+				}}
+			/>
 			<CustomText style={styles.text}>Coffee 1</CustomText>
 		</TouchableOpacity>
 	);

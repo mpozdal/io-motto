@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-	StyleSheet,
-	View,
-	ScrollView,
-	Image,
-	TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, ScrollView, Image } from 'react-native';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 import { useBasketContext } from '../contexts/BasketContext';
@@ -20,23 +14,20 @@ LogBox.ignoreLogs([
 ]);
 
 const ItemScreen = ({ navigation, route }) => {
-	const { item } = route.params;
-
-	const [milkValue, setMilkValue] = useState(item?.item?.milks?.items[0]);
-	const [shotsValue, setShotsValue] = useState([]);
-	const [size, setSize] = useState(item?.item?.sizes?.items[0]);
+	const { item, imgSrc } = route.params;
+	const [milkValue, setMilkValue] = useState(
+		item?.item?.milks?.items[0].milk
+	);
+	//const [shotsValue, setShotsValue] = useState([]);
+	const [size, setSize] = useState(item?.item?.sizes?.items[0].size);
 	const [price, setPrice] = useState(item?.item?.price);
 	const [basePrice, setBasePrice] = useState(item?.item?.price);
-
-	const [milks, setMilks] = useState([]);
-	const [shots, setShots] = useState(item?.item?.flavorShots?.items);
 
 	const { addDrinkToBasket } = useBasketContext();
 
 	const updatePrice = () => {
 		const shotsPrice = 0;
-
-		const sizePrice = size.extraCost;
+		const sizePrice = size?.extraCost;
 		let finalPrice = basePrice + sizePrice + shotsPrice;
 		finalPrice = Math.round(finalPrice * 100) / 100;
 		setPrice(finalPrice);
@@ -54,33 +45,7 @@ const ItemScreen = ({ navigation, route }) => {
 
 	useEffect(() => {
 		updatePrice();
-	}, [size, shotsValue]);
-
-	const changeData = () => {
-		const temp = [];
-		const temp2 = [];
-		item.item.milks.items.map((elem) => {
-			const obj = {
-				label: elem.name,
-				name: elem.name,
-				id: elem.id,
-			};
-			temp.push(obj);
-		});
-		item.item.flavorShots.items.map((elem) => {
-			const obj = {
-				label: elem.name,
-				value: elem.name,
-				cost: elem.extraCost,
-			};
-			temp2.push(obj);
-		});
-		setMilks(temp);
-		setShots(temp2);
-	};
-	useEffect(() => {
-		changeData();
-	}, []);
+	}, [size]);
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -103,14 +68,21 @@ const ItemScreen = ({ navigation, route }) => {
 							gap: 15,
 						}}
 					>
-						<Image source={require('../assets/coffee1.png')} />
+						<Image
+							source={{ uri: imgSrc }}
+							style={{
+								width: 250,
+								height: 180,
+								resizeMode: 'contain',
+							}}
+						/>
 						<CustomText
 							style={{
 								fontSize: typography.size.XL,
 								color: colors.common.TEXT2,
 							}}
 						>
-							{item.item.name}
+							{item?.item?.name}
 						</CustomText>
 						<CustomText
 							style={{
@@ -119,7 +91,7 @@ const ItemScreen = ({ navigation, route }) => {
 								color: colors.common.DETAILS,
 							}}
 						>
-							{item.item.description}
+							{item?.item?.description}
 						</CustomText>
 						<CustomText style={{ fontSize: typography.size.XL }}>
 							{price} zł
@@ -139,73 +111,72 @@ const ItemScreen = ({ navigation, route }) => {
 									marginTop: 20,
 								}}
 							>
-								{item.item.sizes.items.map((obj) => (
+								{item?.item?.sizes?.items?.map((obj, index) => (
 									<SizeOption
 										setSize={setSize}
 										size={size}
-										value={obj}
-										key={obj.id}
+										value={obj.size}
+										key={index}
 									/>
 								))}
 							</View>
 						</View>
 
-						<View style={{ width: '100%', flex: 1 }}>
-							<CustomText
-								style={{ fontSize: typography.size.XL }}
-							>
-								Select milk
-							</CustomText>
-							<View
-								style={{
-									display: 'flex',
-									flexDirection: 'column',
-									gap: 10,
-									marginTop: 20,
-								}}
-							>
-								{item.item.milks.items.map((obj) => (
-									<SizeOption
-										milks
-										setSize={setMilkValue}
-										size={milkValue}
-										value={obj}
-										key={obj.id}
-									/>
-								))}
-								{/* <DropDownPicker
-									open={milkOpen}
-									value={milkValue}
-									items={milks}
-									setOpen={setMilkOpen}
-									setValue={setMilkValue}
-								/> */}
-								{/* <CustomText>Flavor shots</CustomText>
-								<DropDownPicker
-									open={shotsOpen}
-									value={shotsValue}
-									items={shots}
-									setOpen={setShotsOpen}
-									setValue={setShotsValue}
-									setItems={setMilks}
-								/> */}
-							</View>
-						</View>
-					</View>
-					<View style={{ alignItems: 'center' }}>
-						<Button
-							text="Add"
-							add
-							log
-							onPress={() => {
-								const prepareData = prepareItem();
-								navigation.navigate('Item', { item: item });
-
-								addDrinkToBasket(prepareData, item);
-							}}
-						/>
+						{item?.item?.milks?.items[0].milk.name !== 'none' &&
+						item?.item?.milks?.items.length !== 1 ? (
+							<>
+								<View style={{ width: '100%', flex: 1 }}>
+									<CustomText
+										style={{ fontSize: typography.size.XL }}
+									>
+										Select milk
+									</CustomText>
+									<View
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+											gap: 10,
+											marginTop: 20,
+										}}
+									>
+										{item?.item?.milks?.items?.map(
+											(obj, index) => (
+												<SizeOption
+													milks
+													setSize={setMilkValue}
+													size={milkValue}
+													value={obj.milk}
+													key={index}
+												/>
+											)
+										)}
+									</View>
+								</View>
+							</>
+						) : (
+							<></>
+						)}
 					</View>
 				</ScrollView>
+				<View
+					style={{
+						alignItems: 'center',
+
+						width: '100%',
+					}}
+				>
+					<Button
+						text="Add"
+						add
+						log
+						onPress={() => {
+							const prepareData = prepareItem();
+							navigation.navigate('Item', { item: item });
+
+							addDrinkToBasket(prepareData, item);
+						}}
+					/>
+				</View>
 			</View>
 		</View>
 	);

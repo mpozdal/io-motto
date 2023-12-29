@@ -34,10 +34,25 @@ const ManageButton = ({ text, id, item, edit }) => {
 	);
 };
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, details }) => {
+	let imgSrc = String(item.name);
+	imgSrc = imgSrc.toLowerCase();
+	imgSrc = imgSrc.replaceAll(' ', '-');
+	imgSrc =
+		'/Users/michalpozdal/Desktop/studia/3 rok/IO/projekt/MottoProject/src/assets/' +
+		imgSrc +
+		'.png';
+	console.log(imgSrc);
 	return (
 		<View style={styles.container}>
-			<Image source={require('../assets/coffee1.png')} />
+			<Image
+				source={{ uri: imgSrc }}
+				style={{
+					resizeMode: 'contain',
+					width: '20%',
+					height: '100%',
+				}}
+			/>
 
 			<View style={styles.rightSide}>
 				<CustomText style={{ fontSize: typography.size.L }}>
@@ -54,10 +69,12 @@ const CartItem = ({ item }) => {
 				>
 					{item.price} zł
 				</CustomText>
-				<View style={styles.manage}>
-					{/* <ManageButton text="EDIT" edit item={item} /> */}
-					<ManageButton text="REMOVE" id={item.id} />
-				</View>
+				{!details && (
+					<View style={styles.manage}>
+						{/* <ManageButton text="EDIT" edit item={item} /> */}
+						<ManageButton text="REMOVE" id={item.id} />
+					</View>
+				)}
 			</View>
 		</View>
 	);

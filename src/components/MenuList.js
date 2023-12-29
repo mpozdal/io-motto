@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import CustomText from './CustomText';
 import { colors } from '../themes/colors';
@@ -12,7 +12,10 @@ const MenuItem = ({ item }) => {
 	return (
 		<TouchableOpacity onPress={openMenu}>
 			<View style={styles.item}>
-				<View style={styles.img}></View>
+				{/* <Image
+					source={require('../assets/flat-white.png')}
+					style={styles.img}
+				/> */}
 				<CustomText style={styles.itemText}>{item.name}</CustomText>
 			</View>
 		</TouchableOpacity>
@@ -36,12 +39,6 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		alignSelf: 'center',
 	},
-
-	category: {
-		fontSize: 20,
-		color: colors.common.DETAILS,
-		marginTop: 20,
-	},
 	item: {
 		height: 80,
 		display: 'flex',
@@ -51,15 +48,13 @@ const styles = StyleSheet.create({
 		gap: 20,
 	},
 	img: {
-		width: 60,
-		height: 60,
-		borderRadius: 60,
+		width: 30,
 
-		borderWidth: 2,
-		borderColor: colors.common.DETAILS,
+		resizeMode: 'contain',
 	},
 	itemText: {
-		color: colors.common.TEXT2,
+		color: colors.common.PRIMARY,
+		fontSize: 25,
 	},
 });
 

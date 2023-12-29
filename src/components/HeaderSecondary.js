@@ -76,13 +76,23 @@ const HeaderSecondary = ({ navigation, text, stack, cart, store }) => {
 						</View>
 					</Pressable>
 				) : store ? (
-					<CustomText
+					<View
 						style={{
-							color: 'white',
+							flexDirection: 'row',
+							justifyContent: 'center',
+							alignItems: 'center',
 						}}
 					>
-						ul. {dbUser?.defaultStore?.address}
-					</CustomText>
+						<MaterialIcons name="store" color={'white'} size={30} />
+						<CustomText
+							style={{
+								color: 'white',
+							}}
+						>
+							{' '}
+							ul. {dbUser?.defaultStore?.address}
+						</CustomText>
+					</View>
 				) : (
 					<></>
 				)}

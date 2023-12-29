@@ -5,9 +5,7 @@ import Header from '../components/Header';
 import Baner from '../components/Baner';
 import PrevOrders from '../components/PrevOrders';
 import TopSelling from '../components/TopSelling';
-import { useAuthContext } from '../contexts/AuthContext';
 SplashScreen.preventAutoHideAsync();
-import { Auth } from 'aws-amplify';
 const HomeScreen = ({ navigation, route }) => {
 	const [appIsReady, setAppIsReady] = useState(false);
 
@@ -41,9 +39,9 @@ const HomeScreen = ({ navigation, route }) => {
 				style={styles.main}
 				showsVerticalScrollIndicator={false}
 			>
-				<Baner />
-				<PrevOrders navigation={navigation} />
-				<TopSelling navigation={navigation} />
+				{/* <Baner /> */}
+				{/* <PrevOrders navigation={navigation} /> */}
+				{/* <TopSelling navigation={navigation} /> */}
 			</ScrollView>
 		</View>
 	);

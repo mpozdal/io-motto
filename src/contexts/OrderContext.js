@@ -22,11 +22,12 @@ const OrderContextProvider = ({ children }) => {
 							userOrdersId: sub,
 							status: 'paid',
 							total: price,
+							userID: sub,
 						},
 					})
 				).then((response) => {
 					const orderId = response.data.createOrder.id;
-					console.log(orderId);
+
 					try {
 						basketContent.map(async (elem) => {
 							await API.graphql(

@@ -80,7 +80,7 @@ const CartScreen = ({ navigation }) => {
 								fontSize: typography.size.XL,
 							}}
 						>
-							Cart is empty
+							Nothing here...
 						</CustomText>
 					</View>
 				)}

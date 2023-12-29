@@ -18,7 +18,7 @@ const StoresScreen = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<HeaderSecondary navigation={navigation} text="STORES" />
+			<HeaderSecondary navigation={navigation} text="STORES" store />
 			<Modal
 				animationType="slide"
 				transparent={true}

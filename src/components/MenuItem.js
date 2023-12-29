@@ -6,15 +6,22 @@ import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 
 const MenuItem = ({ navigation, item }) => {
+	let imgSrc = String(item.item.name);
+	imgSrc = imgSrc.toLowerCase();
+	imgSrc = imgSrc.replaceAll(' ', '-');
+	imgSrc =
+		'/Users/michalpozdal/Desktop/studia/3 rok/IO/projekt/MottoProject/src/assets/' +
+		imgSrc +
+		'.png';
+
 	return (
 		<TouchableOpacity
 			style={styles.itemContainer}
-			onPress={() => navigation.navigate('Item', { item: item })}
+			onPress={() =>
+				navigation.navigate('Item', { item: item, imgSrc: imgSrc })
+			}
 		>
-			<Image
-				source={require('../assets/coffee1.png')}
-				style={styles.img}
-			/>
+			<Image source={{ uri: imgSrc }} style={styles.img} />
 			<CustomText style={styles.text}>{item.item.name}</CustomText>
 		</TouchableOpacity>
 	);
@@ -23,18 +30,19 @@ const MenuItem = ({ navigation, item }) => {
 const styles = StyleSheet.create({
 	itemContainer: {
 		flex: 1 / 3,
+		height: 130,
 		flexDirection: 'column',
 		margin: 1,
-
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	img: {
-		width: 30,
+		width: '80%',
+		height: '60%',
 		resizeMode: 'contain',
 	},
 	text: {
-		fontSize: typography.size.S + 2,
+		fontSize: typography.size.M,
 		textAlign: 'center',
 		color: colors.common.DETAILS,
 	},
