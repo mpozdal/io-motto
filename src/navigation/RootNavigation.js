@@ -16,6 +16,7 @@ import NewPasswordScreen from '../screens/NewPasswordScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { useAuthContext } from '../contexts/AuthContext';
+
 import { useEffect } from 'react';
 import { Auth, Hub } from 'aws-amplify';
 const Stack = createNativeStackNavigator();
@@ -28,7 +29,6 @@ const RootNavigation = () => {
 			switch (data.payload.event) {
 				case 'signIn':
 					checkUser();
-
 					break;
 				case 'signOut':
 					setAuthUser(null);

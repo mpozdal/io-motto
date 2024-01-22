@@ -5,6 +5,7 @@ import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 import { useBasketContext } from '../contexts/BasketContext';
 import { useNavigation } from '@react-navigation/native';
+import images from '../themes/images';
 const ManageButton = ({ text, id, item, edit }) => {
 	const { removeItemFromBasket } = useBasketContext();
 	const navigation = useNavigation();
@@ -37,16 +38,12 @@ const ManageButton = ({ text, id, item, edit }) => {
 const CartItem = ({ item, details }) => {
 	let imgSrc = String(item.name);
 	imgSrc = imgSrc.toLowerCase();
-	imgSrc = imgSrc.replaceAll(' ', '-');
-	imgSrc =
-		'/Users/michalpozdal/Desktop/studia/3 rok/IO/projekt/MottoProject/src/assets/' +
-		imgSrc +
-		'.png';
-	console.log(imgSrc);
+	imgSrc = imgSrc.replaceAll(' ', '');
+
 	return (
 		<View style={styles.container}>
 			<Image
-				source={{ uri: imgSrc }}
+				source={images[imgSrc]}
 				style={{
 					resizeMode: 'contain',
 					width: '20%',

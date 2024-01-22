@@ -1,18 +1,15 @@
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import CustomText from './CustomText';
-
+import images from '../themes/images';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 
 const MenuItem = ({ navigation, item }) => {
 	let imgSrc = String(item.item.name);
 	imgSrc = imgSrc.toLowerCase();
-	imgSrc = imgSrc.replaceAll(' ', '-');
-	imgSrc =
-		'/Users/michalpozdal/Desktop/studia/3 rok/IO/projekt/MottoProject/src/assets/' +
-		imgSrc +
-		'.png';
+	imgSrc = imgSrc.replaceAll(' ', '');
+	console.log(item);
 
 	return (
 		<TouchableOpacity
@@ -21,7 +18,7 @@ const MenuItem = ({ navigation, item }) => {
 				navigation.navigate('Item', { item: item, imgSrc: imgSrc })
 			}
 		>
-			<Image source={{ uri: imgSrc }} style={styles.img} />
+			<Image source={images[imgSrc]} style={styles.img} />
 			<CustomText style={styles.text}>{item.item.name}</CustomText>
 		</TouchableOpacity>
 	);

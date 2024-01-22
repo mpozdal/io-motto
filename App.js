@@ -10,6 +10,8 @@ import BasketContextProvider from './src/contexts/BasketContext';
 import OrderContextProvider from './src/contexts/OrderContext';
 import SettingsContextProvider from './src/contexts/SettingsContext';
 import MenuContextProvider from './src/contexts/MenuContext';
+import DetailsOrderContext from './src/contexts/DetailsOrderContext';
+import HomeContext from './src/contexts/HomeContext';
 
 Amplify.configure(amplifyconfig);
 SplashScreen.preventAutoHideAsync();
@@ -33,15 +35,19 @@ const App = () => {
 	return (
 		<AuthContextProvider>
 			<SettingsContextProvider>
-				<BasketContextProvider>
-					<OrderContextProvider>
-						<MenuContextProvider>
-							<StoresContextProvider>
-								<RootNavigation />
-							</StoresContextProvider>
-						</MenuContextProvider>
-					</OrderContextProvider>
-				</BasketContextProvider>
+				<DetailsOrderContext>
+					<BasketContextProvider>
+						<OrderContextProvider>
+							<HomeContext>
+								<MenuContextProvider>
+									<StoresContextProvider>
+										<RootNavigation />
+									</StoresContextProvider>
+								</MenuContextProvider>
+							</HomeContext>
+						</OrderContextProvider>
+					</BasketContextProvider>
+				</DetailsOrderContext>
 			</SettingsContextProvider>
 		</AuthContextProvider>
 	);

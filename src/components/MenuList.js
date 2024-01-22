@@ -9,6 +9,7 @@ const MenuItem = ({ item }) => {
 	const openMenu = () => {
 		navigation.navigate('Menu', { menu: item });
 	};
+	console.log(item);
 	return (
 		<TouchableOpacity onPress={openMenu}>
 			<View style={styles.item}>

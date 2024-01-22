@@ -8,7 +8,7 @@ import CustomText from '../components/CustomText';
 import SizeOption from '../components/SizeOption';
 import Button from '../components/Button';
 import { LogBox } from 'react-native';
-
+import images from '../themes/images';
 LogBox.ignoreLogs([
 	'Non-serializable values were found in the navigation state',
 ]);
@@ -35,7 +35,7 @@ const ItemScreen = ({ navigation, route }) => {
 
 	const prepareItem = () => {
 		const obj = {
-			drink: item.item,
+			drink: item?.item,
 			milk: milkValue,
 			size: size,
 			price: price,
@@ -45,6 +45,7 @@ const ItemScreen = ({ navigation, route }) => {
 
 	useEffect(() => {
 		updatePrice();
+		console.log(imgSrc);
 	}, [size]);
 
 	return (
@@ -69,7 +70,7 @@ const ItemScreen = ({ navigation, route }) => {
 						}}
 					>
 						<Image
-							source={{ uri: imgSrc }}
+							source={images[imgSrc]}
 							style={{
 								width: 250,
 								height: 180,
@@ -111,19 +112,22 @@ const ItemScreen = ({ navigation, route }) => {
 									marginTop: 20,
 								}}
 							>
-								{item?.item?.sizes?.items?.map((obj, index) => (
-									<SizeOption
-										setSize={setSize}
-										size={size}
-										value={obj.size}
-										key={index}
-									/>
-								))}
+								{item?.item?.sizes?.items
+									?.sort(
+										(a, b) => a.size.value - b.size.value
+									)
+									.map((obj, index) => (
+										<SizeOption
+											setSize={setSize}
+											size={size}
+											value={obj.size}
+											key={index}
+										/>
+									))}
 							</View>
 						</View>
 
-						{item?.item?.milks?.items[0].milk.name !== 'none' &&
-						item?.item?.milks?.items.length !== 1 ? (
+						{item?.item?.milks?.items.length !== 1 ? (
 							<>
 								<View style={{ width: '100%', flex: 1 }}>
 									<CustomText
@@ -139,8 +143,12 @@ const ItemScreen = ({ navigation, route }) => {
 											marginTop: 20,
 										}}
 									>
-										{item?.item?.milks?.items?.map(
-											(obj, index) => (
+										{item?.item?.milks?.items
+											?.sort(
+												(a, b) =>
+													a.milk.name - b.milk.name
+											)
+											.map((obj, index) => (
 												<SizeOption
 													milks
 													setSize={setMilkValue}
@@ -148,8 +156,7 @@ const ItemScreen = ({ navigation, route }) => {
 													value={obj.milk}
 													key={index}
 												/>
-											)
-										)}
+											))}
 									</View>
 								</View>
 							</>

@@ -7,20 +7,18 @@ import CustomText from './CustomText';
 
 const Baner = () => {
 	return (
-		<TouchableOpacity>
-			<View style={styles.container}>
-				<View style={styles.main}>
-					<CustomText>Attention Motto fans!</CustomText>
-					<CustomText></CustomText>
-					<CustomText style={styles.text}>
-						TRY OUR MOTTO SECRET ITEMS
-					</CustomText>
-				</View>
-				<View style={styles.banerImg}>
-					<Image source={require('../assets/baner.png')} />
-				</View>
+		<View style={styles.container}>
+			<View style={styles.main}>
+				<CustomText>Attention Motto fans!</CustomText>
+				<CustomText></CustomText>
+				<CustomText style={styles.text}>
+					TRY OUR MOTTO SECRET ITEMS
+				</CustomText>
 			</View>
-		</TouchableOpacity>
+			<View style={styles.banerImg}>
+				<Image source={require('../assets/baner.png')} />
+			</View>
+		</View>
 	);
 };
 

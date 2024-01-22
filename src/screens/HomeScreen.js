@@ -5,43 +5,23 @@ import Header from '../components/Header';
 import Baner from '../components/Baner';
 import PrevOrders from '../components/PrevOrders';
 import TopSelling from '../components/TopSelling';
+import { useHomeContext } from '../contexts/HomeContext';
+import LastOrder from '../components/LastOrder';
 SplashScreen.preventAutoHideAsync();
 const HomeScreen = ({ navigation, route }) => {
-	const [appIsReady, setAppIsReady] = useState(false);
-
-	useEffect(() => {
-		async function prepare() {
-			try {
-			} catch (e) {
-				console.warn(e);
-			} finally {
-				setAppIsReady(true);
-			}
-		}
-
-		prepare();
-	}, []);
-
-	const onLayoutRootView = useCallback(async () => {
-		if (appIsReady) {
-			await SplashScreen.hideAsync();
-		}
-	}, [appIsReady]);
-
-	if (!appIsReady) {
-		return null;
-	}
+	const { drinks } = useHomeContext();
 
 	return (
-		<View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+		<View style={{ flex: 1 }}>
 			<Header navigation={navigation} />
 			<ScrollView
 				style={styles.main}
 				showsVerticalScrollIndicator={false}
 			>
-				{/* <Baner /> */}
+				<Baner />
 				{/* <PrevOrders navigation={navigation} /> */}
-				{/* <TopSelling navigation={navigation} /> */}
+				<TopSelling navigation={navigation} drinks={drinks} />
+				<LastOrder navigation={navigation} />
 			</ScrollView>
 		</View>
 	);

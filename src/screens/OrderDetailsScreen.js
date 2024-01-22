@@ -1,5 +1,11 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import React, { useEffect, useCallback } from 'react';
+import {
+	StyleSheet,
+	View,
+	ScrollView,
+	Text,
+	RefreshControl,
+} from 'react-native';
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -8,12 +14,23 @@ import CartItem from '../components/CartItem';
 import Button from '../components/Button';
 import CustomText from '../components/CustomText';
 import { useAuthContext } from '../contexts/AuthContext';
-
+import { useDetailsOrderContext } from '../contexts/DetailsOrderContext';
+import Loading from './Loading';
 const OrderDetailsScreen = ({ navigation, route }) => {
-	const { orderInfo } = route?.params;
-	console.log(orderInfo.items.items);
+	const { orderID } = route?.params;
 
-	const { fetchOrderData } = useAuthContext();
+	const { fetchOrderDetails, orderDetails, loading, cancelOrder } =
+		useDetailsOrderContext();
+
+	useEffect(() => {
+		fetchOrderDetails(orderID);
+	}, []);
+	const onRefresh = useCallback(() => {
+		fetchOrderDetails(orderID);
+	}, []);
+	if (loading) {
+		return <Loading />;
+	}
 
 	return (
 		<>
@@ -23,28 +40,50 @@ const OrderDetailsScreen = ({ navigation, route }) => {
 					text="Order details"
 					stack
 				/>
-				<View
+				<ScrollView
 					style={{
 						flex: 1,
-
+						alignSelf: 'center',
+					}}
+					//refreshControl={<RefreshControl onRefresh={onRefresh} />}
+				>
+					<View style={{ alignItems: 'center' }}>
+						{orderDetails?.items?.items.map((elem) => (
+							<CartItem
+								details
+								item={{
+									name: elem.drink.name,
+									size: elem.size.value,
+									milk: elem.milk.name,
+									price: elem.price,
+								}}
+								key={elem.id}
+							/>
+						))}
+					</View>
+				</ScrollView>
+				<View
+					style={{
+						alignSelf: 'center',
+						width: '100%',
 						alignItems: 'center',
 					}}
 				>
-					<CustomText>Status: {orderInfo.status}</CustomText>
-					<CustomText>Total: {orderInfo.total}</CustomText>
-					{orderInfo?.items?.items.map((elem) => (
-						<CartItem
-							details
-							item={{
-								name: elem.drink.name,
-								size: elem.size.value,
-								milk: elem.milk.name,
-								price: elem.price,
-							}}
-							key={elem.id}
+					<CustomText style={styles.text}>
+						Status: {orderDetails?.status.toUpperCase()}
+					</CustomText>
+					<CustomText style={styles.text}>
+						ul. {orderDetails?.store?.address}
+					</CustomText>
+					<CustomText style={styles.text}>
+						Total: {orderDetails?.total} zł
+					</CustomText>
+					{orderDetails.status == 'paid' && (
+						<Button
+							text="Cancel"
+							onPress={() => cancelOrder(orderID)}
 						/>
-					))}
-					<Button text="Cancel" />
+					)}
 				</View>
 			</View>
 		</>
@@ -55,6 +94,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		width: '100%',
+
+		marginBottom: 30,
+	},
+	text: {
+		fontSize: typography.size.L,
+		margin: 5,
 	},
 });
 

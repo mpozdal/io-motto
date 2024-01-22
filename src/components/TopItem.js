@@ -4,22 +4,32 @@ import CustomText from './CustomText';
 
 import { colors } from '../themes/colors';
 import { typography } from '../themes/typography';
+import images from '../themes/images';
+const TopItem = ({ navigation, drink }) => {
+	let imgSrc = drink.name;
+	let drinkName = drink.name;
+	imgSrc = imgSrc.toLowerCase();
+	imgSrc = imgSrc.replaceAll(' ', '');
+	drink = {
+		item: drink,
+	};
 
-const TopItem = ({ navigation }) => {
 	return (
 		<TouchableOpacity
 			style={styles.container}
-			onPress={() => navigation.navigate('Item', { name: 'CAPPUCCINO' })}
+			onPress={() =>
+				navigation.navigate('Item', { item: drink, imgSrc: imgSrc })
+			}
 		>
 			<Image
-				source={require('../assets/coffee1.png')}
+				source={images[imgSrc]}
 				style={{
 					resizeMode: 'contain',
 					width: '50%',
 					height: '50%',
 				}}
 			/>
-			<CustomText style={styles.text}>Coffee 1</CustomText>
+			<CustomText style={styles.text}>{drinkName}</CustomText>
 		</TouchableOpacity>
 	);
 };

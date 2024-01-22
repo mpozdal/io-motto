@@ -11,9 +11,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const OrdersScreen = ({ navigation }) => {
 	const { orders, pastOrders } = useAuthContext();
-	useEffect(() => {
-		console.log('status update');
-	}, [orders, pastOrders]);
+	useEffect(() => {}, [orders, pastOrders]);
 	return (
 		<>
 			<View style={styles.container}>
@@ -64,7 +62,7 @@ const OngoingOrdersView = ({ navigation }) => {
 						order={order}
 						onPress={() =>
 							navigation.navigate('OrderDetails', {
-								orderInfo: order,
+								orderID: order.id,
 							})
 						}
 					/>
@@ -104,7 +102,7 @@ const PastOrdersView = ({ navigation }) => {
 						order={order}
 						onPress={() =>
 							navigation.navigate('OrderDetails', {
-								orderInfo: order,
+								orderID: order.id,
 							})
 						}
 					/>
