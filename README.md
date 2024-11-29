@@ -1,3 +1,37 @@
+# Motto ☕  
+**Motto** to nowoczesna aplikacja mobilna, która zmienia sposób zamawiania spersonalizowanej kawy w ulubionej sieci kawiarni specjalizującej się w kawie na wynos. Aplikacja została stworzona z wykorzystaniem **React Native** oraz oparta na technologiach **AWS AppSync**, **AWS Amplify** i **GraphQL**, co zapewnia płynne i efektywne działanie.
+
+---
+
+## 🌟 Funkcje  
+
+### 1. Spersonalizowane zamówienia kawy  
+- Dopasuj kawę do swoich preferencji: wybierz rodzaj kawy, rodzaj mleka.  
+
+### 2. Lokalizacja kawiarni  
+- Znajdź najbliższą kawiarnię z sieci oferującej kawę na wynos i złóż zamówienie.  
+
+### 3. Śledzenie zamówień w czasie rzeczywistym  
+- Otrzymuj powiadomienia o statusie zamówienia – od momentu przyjęcia do przygotowania i gotowości do odbioru.  
+
+### 4. Profil użytkownika  
+- Zapisuj najczęściej odwiedzane kawiarnie, aby przyspieszyć proces składania zamówień.  
+
+---
+
+## 🛠️ Technologie  
+
+### Frontend  
+- **React Native** – umożliwia tworzenie aplikacji mobilnych działających na platformach iOS i Android.  
+
+### Backend  
+- **AWS AppSync** – zarządzanie i synchronizacja danych w czasie rzeczywistym za pomocą GraphQL.  
+- **GraphQL** – elastyczne i wydajne API pozwalające na efektywne pobieranie i przesyłanie danych.  
+- **AWS Amplify** – ułatwia integrację backendu z frontendem oraz zarządzanie infrastrukturą chmurową.  
+
+---
+
+
 ![image](https://github.com/mpozdal/io-motto/assets/64686380/cd02b91f-5917-453c-9e10-0ce9a26fcc4f)
 ![image](https://github.com/mpozdal/io-motto/assets/64686380/3d2f80a9-7e34-47ac-ac13-b7bce0d9dbac)
 ![image](https://github.com/mpozdal/io-motto/assets/64686380/f2c31673-6faa-4630-b681-845613d9fe2b)
